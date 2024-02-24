@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import { GameScene } from './GameScene'
+import { World } from 'cannon-es'
 
 export interface Component {
   name: string
@@ -9,7 +11,10 @@ export interface Component {
 }
 
 export class GameObject {
+
   public readonly obj = new THREE.Object3D() 
+  
+  public parent: GameScene | null = null
   private components: Component[] = []
 
   constructor(
@@ -36,5 +41,15 @@ export class GameObject {
   removeComponent(component: Component) {
     component.onRemove(this)
     this.components = this.components.filter(x => x != component)
+  }
+
+  onAdd(gameScene: GameScene) {
+    this.parent = gameScene
+    gameScene.scene.add(this.obj)
+    this.components.forEach(c => c.start())
+  }
+
+  onRemove() {
+    this.parent = null
   }
 }

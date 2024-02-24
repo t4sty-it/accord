@@ -1,13 +1,13 @@
 import * as THREE from 'three'
-import { useScene } from "./lib/scene";
+import { GameScene } from "./lib/GameScene";
 import { useCamera } from './lib/camera';
 import { GameObject } from './lib/Gameobject';
 import { MeshComponent } from './components/MeshComponent';
 import { RotationBehavior } from './components/RotationBehavior';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';
-
-const objects: GameObject[] = []
+import { BODY_TYPES, Body, Box, Plane, Quaternion, Shape, Vec3, World } from 'cannon-es';
+import { RigidBodyComponent } from './components/RigidBodyComponent';
 
 const camera = useCamera({
   fov: 70,
@@ -15,9 +15,9 @@ const camera = useCamera({
   initialPosition: new THREE.Vector3(0, 0, 2)
 })
 
-const scene = useScene({
+const scene = new GameScene({
   camera,
-  update: time => objects.forEach(o => o.update(time)),
+  world: new World({gravity: new Vec3(0, -9.82, 0)}),
   mountOn: document.body
 })
 
@@ -35,7 +35,7 @@ light.addComponent(new LightComponent(
   new THREE.PointLight()
 ))
 
-objects.push(light)
+scene.addObject(light)
 
 const block = new GameObject('block')
 block.addComponent(new TransformComponent(
@@ -48,8 +48,30 @@ block.addComponent(new MeshComponent(
   })
 ))
 
-block.addComponent(new RotationBehavior(new THREE.Euler(0, 0.001, 0)))
+block.addComponent(new RigidBodyComponent(
+  new Body({
+    mass: 5,
+    shape: new Box(new Vec3(0.1, 0.1, 0.1))
+  })
+))
 
-objects.push(block)
+// block.addComponent(new RotationBehavior(new THREE.Euler(0, 0.001, 0)))
 
-objects.forEach(o => scene.add(o.render()))
+scene.addObject(block)
+
+const ground = new GameObject('ground')
+ground.addComponent(new MeshComponent(
+  new THREE.PlaneGeometry(1000, 1000),
+  new THREE.MeshBasicMaterial({color: 0xffffff})
+))
+
+ground.addComponent(new RigidBodyComponent(
+  new Body({
+    type: BODY_TYPES.STATIC,
+    shape: new Plane(),
+    quaternion: new Quaternion().setFromEuler(-Math.PI/2, 0, 0), // face up
+    position: new Vec3(0, -1, 0)
+  })
+))
+
+scene.addObject(ground)
