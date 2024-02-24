@@ -3,11 +3,12 @@ import { GameScene } from "./lib/GameScene";
 import { useCamera } from './lib/camera';
 import { GameObject } from './lib/Gameobject';
 import { MeshComponent } from './components/MeshComponent';
-import { RotationBehavior } from './components/RotationBehavior';
+import { RotationBehavior } from './behaviors/RotationBehavior';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';
 import { BODY_TYPES, Body, Box, Plane, Quaternion, Shape, Vec3, World } from 'cannon-es';
 import { RigidBodyComponent } from './components/RigidBodyComponent';
+import { Block } from './objects/block';
 
 const camera = useCamera({
   fov: 70,
@@ -37,23 +38,7 @@ light.addComponent(new LightComponent(
 
 scene.addObject(light)
 
-const block = new GameObject('block')
-block.addComponent(new TransformComponent(
-  new THREE.Vector3(0, 0, 0)
-))
-block.addComponent(new MeshComponent(
-  new THREE.BoxGeometry(0.2, 0.2, 0.2),
-  new THREE.MeshLambertMaterial({
-    color: 0xff0000
-  })
-))
-
-block.addComponent(new RigidBodyComponent(
-  new Body({
-    mass: 5,
-    shape: new Box(new Vec3(0.1, 0.1, 0.1))
-  })
-))
+const block = Block()
 
 // block.addComponent(new RotationBehavior(new THREE.Euler(0, 0.001, 0)))
 
@@ -70,7 +55,7 @@ ground.addComponent(new RigidBodyComponent(
     type: BODY_TYPES.STATIC,
     shape: new Plane(),
     quaternion: new Quaternion().setFromEuler(-Math.PI/2, 0, 0), // face up
-    position: new Vec3(0, -1, 0)
+    position: new Vec3(0, -0.1, 0)
   })
 ))
 
