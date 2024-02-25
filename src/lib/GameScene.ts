@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import { GameObject } from './Gameobject';
 
 export class GameScene {
-  public readonly camera
+  private _camera: THREE.Camera | null = null
+  public get camera() { return this._camera }
   public readonly scene = new THREE.Scene()
   public readonly world
 
@@ -16,7 +17,7 @@ export class GameScene {
     mountOn: HTMLElement
   }
   ){
-    this.camera = camera ?? new THREE.PerspectiveCamera()
+    this._camera = camera ?? null
     this.world = world ?? new World()
 
     const width = mountOn.clientWidth, height = mountOn.clientHeight;
@@ -53,6 +54,12 @@ export class GameScene {
   private animation(time: number) {
     this.world?.fixedStep()
     this.objects.forEach(o => o.update(time))
-    this.renderer.render(this.scene, this.camera)
+    if (this._camera != null)
+      this.renderer.render(this.scene, this._camera)
+  }
+
+  public setCamera(camera: THREE.Camera) {
+    this._camera = camera
+    this.resize()
   }
 }

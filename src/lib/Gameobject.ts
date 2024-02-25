@@ -44,4 +44,8 @@ export class GameObject {
   onRemove() {
     this.parent = null
   }
+
+  getComponent(name: string) {
+    return this.components.find(c => c.name == name)
+  }
 }

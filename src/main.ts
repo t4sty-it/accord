@@ -1,26 +1,23 @@
 import * as THREE from 'three'
 import { GameScene } from "./lib/GameScene";
-import { useCamera } from './lib/camera';
 import { GameObject } from './lib/Gameobject';
 import { MeshComponent } from './components/MeshComponent';
-import { RotationBehavior } from './behaviors/RotationBehavior';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';
-import { BODY_TYPES, Body, Box, Plane, Quaternion, Shape, Vec3, World } from 'cannon-es';
+import { BODY_TYPES, Body, Plane, Quaternion, Vec3, World } from 'cannon-es';
 import { RigidBodyComponent } from './components/RigidBodyComponent';
 import { Block } from './objects/block';
-
-const camera = useCamera({
-  fov: 70,
-  aspect: window.innerWidth / window.innerHeight,
-  initialPosition: new THREE.Vector3(0, 0, 2)
-})
+import { cameraMan } from './objects/cameraMan';
 
 const scene = new GameScene({
-  camera,
   world: new World({gravity: new Vec3(0, -9.82, 0)}),
   mountOn: document.body
 })
+
+
+const camera = new THREE.PerspectiveCamera(70)
+scene.setCamera(camera)
+scene.addObject(cameraMan(camera))
 
 const light = new GameObject('light')
 light.addComponent(new TransformComponent(
@@ -39,8 +36,6 @@ light.addComponent(new LightComponent(
 scene.addObject(light)
 
 const block = Block()
-
-// block.addComponent(new RotationBehavior(new THREE.Euler(0, 0.001, 0)))
 
 scene.addObject(block)
 

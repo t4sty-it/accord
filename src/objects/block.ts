@@ -26,10 +26,10 @@ export function Block() {
 
   block.addComponent(rb)
 
-  const jumpInput = new InputComponent('ArrowUp', {type: 'temporary'})
+  // const jumpInput = new InputComponent('ArrowUp', {type: 'temporary'})
   
-  block.addComponent(jumpInput)
-  block.addComponent(new JumpBehavior(rb, jumpInput))
+  // block.addComponent(jumpInput)
+  // block.addComponent(new JumpBehavior({rb, input: jumpInput, strength: 20}))
 
   return block
 }
