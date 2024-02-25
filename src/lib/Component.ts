@@ -1,9 +1,18 @@
 import { GameObject } from './Gameobject';
 
-export interface Component {
-  name: string;
-  start(): void;
-  update(time: number): void;
-  onAdd(to: GameObject): void;
-  onRemove(from: GameObject): void;
+export class Component {
+  name: string = 'component'
+  
+  protected gameObject: GameObject | null = null
+
+  start(): void {}
+  update(_time: number): void {}
+  
+  onAdd(to: GameObject): void {
+    this.gameObject = to
+  }
+  
+  onRemove(_from: GameObject): void {
+    this.gameObject = null
+  }
 }

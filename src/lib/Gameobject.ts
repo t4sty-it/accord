@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { GameScene } from './GameScene'
-import { World } from 'cannon-es'
 import { Component } from './Component'
 
 export class GameObject {

@@ -1,11 +1,10 @@
-import { GameObject } from "../lib/Gameobject";
 import { Component } from '../lib/Component';
 
 export interface InputConfig {
   type: 'temporary' | 'persistent'
 } 
 
-export class InputComponent implements Component {
+export class InputComponent extends Component {
   name = 'input'
 
   private _counter = 0
@@ -16,6 +15,7 @@ export class InputComponent implements Component {
     public readonly axis: string,
     public readonly config: InputConfig
   ){
+    super()
     window.addEventListener('keydown', e => {
       if(e.code == axis) {
         this._value = 1
@@ -31,8 +31,7 @@ export class InputComponent implements Component {
     })
   }
 
-  start(): void {}
-  update(time: number): void {
+  update(_time: number): void {
     if (this.config.type == 'temporary') {
       if (this._value != 0 && this._counter == 0) {
         this._value = 0
@@ -43,6 +42,4 @@ export class InputComponent implements Component {
       }
     }
   }
-  onAdd(to: GameObject): void {}
-  onRemove(from: GameObject): void {}
 }

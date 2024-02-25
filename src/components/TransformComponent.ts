@@ -1,25 +1,21 @@
 import * as THREE from 'three'
-import { GameObject } from "../lib/Gameobject";
 import { Component } from '../lib/Component';
 
-export class TransformComponent implements Component {
+export class TransformComponent extends Component {
   name: 'transform' = 'transform';
-
-  parent: GameObject | null = null
 
   constructor(
     public readonly position: THREE.Vector3 = new THREE.Vector3(),
     public readonly rotation: THREE.Euler = new THREE.Euler(),
     public readonly scale: THREE.Vector3 = new THREE.Vector3(1, 1, 1)
-  ){}
+  ){ super() }
 
-  private updateParent(time: number) {
-    if (this.parent == null) return
+  private updateParent(_time: number) {
+    if (this.gameObject == null) return
     
-    this.parent.obj.position.copy(this.position)
-    this.parent.obj.rotation.copy(this.rotation)
-    this.parent.obj.scale.copy(this.scale)
-    
+    this.gameObject.obj.position.copy(this.position)
+    this.gameObject.obj.rotation.copy(this.rotation)
+    this.gameObject.obj.scale.copy(this.scale)
   }
 
   start(): void {
@@ -28,11 +24,4 @@ export class TransformComponent implements Component {
   update(time: number): void {
     this.updateParent(time)
   }
-  onAdd(to: GameObject): void {
-    this.parent = to
-  }
-  onRemove(from: GameObject): void {
-    this.parent = null
-  }
-
 }

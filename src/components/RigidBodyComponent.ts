@@ -4,13 +4,11 @@ import { Body, Vec3, World } from "cannon-es";
 
 export type CollisionHandler = (e: {body: Body, contact: Vec3}) => void
 
-export class RigidBodyComponent implements Component {
+export class RigidBodyComponent extends Component {
   name: 'collider' = 'collider'
 
-  private parent: GameObject | null = null
-
   private get world(): World | null {
-    return this.parent?.parent?.world ?? null
+    return this.gameObject?.parent?.world ?? null
   }
   
   private collisionHandlers: CollisionHandler[] = []
@@ -18,6 +16,7 @@ export class RigidBodyComponent implements Component {
   constructor(
     public readonly body: Body
   ){
+    super()
     this.body.addEventListener('collision', (e: {body: Body, contact: Vec3}) => {
       this.collisionHandlers.forEach(h => h(e))
     })
@@ -27,16 +26,12 @@ export class RigidBodyComponent implements Component {
     this.world?.addBody(this.body)
   }
   
-  update(time: number): void {
-    this.parent?.obj.position.copy(this.body.position)
-    this.parent?.obj.quaternion.copy(this.body.quaternion)
+  update(_time: number): void {
+    this.gameObject?.obj.position.copy(this.body.position)
+    this.gameObject?.obj.quaternion.copy(this.body.quaternion)
   }
 
-  onAdd(to: GameObject): void {
-    this.parent = to
-  }
-  onRemove(from: GameObject): void {
-    this.parent = null
+  onRemove(_from: GameObject): void {
     this.world?.removeBody(this.body)
   }
 
