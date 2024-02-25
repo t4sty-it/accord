@@ -1,7 +1,6 @@
 import { Body, Box, Vec3 } from "cannon-es"
 import { MeshComponent } from "../components/MeshComponent"
 import { RigidBodyComponent } from "../components/RigidBodyComponent"
-import { TransformComponent } from "../components/TransformComponent"
 import { GameObject } from "../lib/Gameobject"
 import * as THREE from 'three'
 import { InputComponent } from "../components/InputComponent"

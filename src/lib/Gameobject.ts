@@ -1,14 +1,7 @@
 import * as THREE from 'three'
 import { GameScene } from './GameScene'
 import { World } from 'cannon-es'
-
-export interface Component {
-  name: string
-  start(): void
-  update(time: number): void
-  onAdd(to: GameObject): void
-  onRemove(from: GameObject): void
-}
+import { Component } from './Component'
 
 export class GameObject {
 

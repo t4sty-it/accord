@@ -1,5 +1,6 @@
 import * as THREE from 'three'
-import { Component, GameObject } from "../lib/Gameobject";
+import { GameObject } from "../lib/Gameobject";
+import { Component } from '../lib/Component';
 
 export class TransformComponent implements Component {
   name: 'transform' = 'transform';
