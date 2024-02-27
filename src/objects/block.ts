@@ -14,7 +14,8 @@ export function Block() {
     new THREE.BoxGeometry(0.2, 0.2, 0.2),
     new THREE.MeshLambertMaterial({
       color: 0xff0000
-    })
+    }),
+    { castShadow: true }
   ))
   
   const rb = new RigidBodyComponent(

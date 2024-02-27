@@ -22,8 +22,13 @@ export class GameScene {
 
     const width = mountOn.clientWidth, height = mountOn.clientHeight;
     this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+    
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.BasicShadowMap
+    
     this.renderer.setSize( width, height );
     this.renderer.setAnimationLoop(this.animation.bind(this));
+    
     mountOn.appendChild(this.renderer.domElement)
 
     window.addEventListener('resize', this.resize.bind(this))

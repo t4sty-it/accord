@@ -10,10 +10,16 @@ export class MeshComponent extends Component {
 
   constructor(
     public readonly geometry: THREE.BufferGeometry,
-    public readonly material: THREE.Material
+    public readonly material: THREE.Material,
+    options?: {
+      castShadow?: boolean,
+      receiveShadow?: boolean
+    }
   ){
     super()
     this._mesh = new THREE.Mesh(geometry, material)
+    this._mesh.castShadow = options?.castShadow ?? false
+    this._mesh.receiveShadow = options?.receiveShadow ?? false
   }
 
   onAdd(gameObject: GameObject): void {

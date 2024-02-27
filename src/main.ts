@@ -21,7 +21,7 @@ scene.addObject(cameraMan(camera))
 
 const light = new GameObject('light')
 light.addComponent(new TransformComponent(
-  new THREE.Vector3(0, 0.3, 1)
+  new THREE.Vector3(0, 1, 1)
 ))
 light.addComponent(new MeshComponent(
   new THREE.SphereGeometry(0.01),
@@ -29,8 +29,10 @@ light.addComponent(new MeshComponent(
     color: 0xffffff
   })
 ))
+
 light.addComponent(new LightComponent(
-  new THREE.PointLight()
+  new THREE.PointLight(0xffffff, 1),
+  { castShadow: true, shadowQuality: 13 }
 ))
 
 scene.addObject(light)
@@ -42,7 +44,8 @@ scene.addObject(block)
 const ground = new GameObject('ground')
 ground.addComponent(new MeshComponent(
   new THREE.PlaneGeometry(1000, 1000),
-  new THREE.MeshBasicMaterial({color: 0xffffff})
+  new THREE.MeshLambertMaterial({color: 0xffffff}),
+  { receiveShadow: true }
 ))
 
 ground.addComponent(new RigidBodyComponent(
