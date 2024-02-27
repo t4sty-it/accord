@@ -17,7 +17,7 @@ export class RigidBodyComponent extends Component {
     public readonly body: Body
   ){
     super()
-    this.body.addEventListener('collision', (e: {body: Body, contact: Vec3}) => {
+    this.body.addEventListener('collide', (e: {body: Body, contact: Vec3}) => {
       this.collisionHandlers.forEach(h => h(e))
     })
   }
