@@ -1,8 +1,10 @@
 import { Component } from '../lib/Component';
 
 export interface InputConfig {
-  type: 'temporary' | 'persistent'
-} 
+  type: 'temporary' | 'persistent',
+  inverse?: string,
+  scale?: number
+}
 
 export class InputComponent extends Component {
   name = 'input'
@@ -18,13 +20,18 @@ export class InputComponent extends Component {
     super()
     window.addEventListener('keydown', e => {
       if(e.code == axis) {
-        this._value = 1
+        this._value = config.scale ?? 1
+        this._counter = 1
+      }
+
+      if (e.code == config.inverse) {
+        this._value = -(config.scale ?? 1)
         this._counter = 1
       }
     })
 
     window.addEventListener('keyup', e => {
-      if(e.code == axis) {
+      if(e.code == axis || e.code == config.inverse) {
         this._value = 0
         this._counter = 0
       }

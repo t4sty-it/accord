@@ -4,7 +4,7 @@ import { GameObject } from './lib/Gameobject';
 import { MeshComponent } from './components/MeshComponent';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';
-import { BODY_TYPES, Body, Plane, Quaternion, Vec3, World } from 'cannon-es';
+import { BODY_TYPES, Body, Material, Plane, Quaternion, Vec3, World } from 'cannon-es';
 import { RigidBodyComponent } from './components/RigidBodyComponent';
 import { Block } from './objects/block';
 import { cameraMan } from './objects/cameraMan';
@@ -50,7 +50,8 @@ ground.addComponent(new RigidBodyComponent(
     type: BODY_TYPES.STATIC,
     shape: new Plane(),
     quaternion: new Quaternion().setFromEuler(-Math.PI/2, 0, 0), // face up
-    position: new Vec3(0, -0.1, 0)
+    position: new Vec3(0, -0.1, 0),
+    material: new Material({friction: 0.01, restitution: 0})
   })
 ))
 
