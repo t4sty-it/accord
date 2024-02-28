@@ -5,7 +5,7 @@ import { Body, Vec3, World } from "cannon-es";
 export type CollisionHandler = (e: {body: Body, contact: Vec3}) => void
 
 export class RigidBodyComponent extends Component {
-  name: 'collider' = 'collider'
+  name = 'rigidBody'
 
   private get world(): World | null {
     return this.gameObject?.parent?.world ?? null

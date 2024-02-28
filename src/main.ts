@@ -34,6 +34,10 @@ light.addComponent(new LightComponent(
   { castShadow: true, shadowQuality: 13 }
 ))
 
+light.addComponent(new LightComponent(
+  new THREE.AmbientLight(0xffdddd, 0.03)
+))
+
 scene.addObject(light)
 
 const block = Block()

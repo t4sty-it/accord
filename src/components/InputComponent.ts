@@ -27,11 +27,17 @@ export class InputComponent extends Component {
     if (this.isKeyboardInput) {
       this.bindKeyboard()
     }
+    else {
+      this.bindMouse()
+    }
   }
 
   update(_time: number): void {
     if (this.isKeyboardInput) {
       this.updateKeyboard()
+    }
+    else {
+      this.updateMouse()
     }
   }
 
@@ -62,6 +68,36 @@ export class InputComponent extends Component {
   }
 
   private updateKeyboard() {
+    if (this.config.type == 'temporary') {
+      if (this._value != 0 && this._counter == 0) {
+        this._value = 0
+      }
+
+      if (this._counter > 0) {
+        this._counter--
+      }
+    }
+  }
+
+  private bindMouse() {
+    window.addEventListener('mousedown', e => {
+      const buttonListened = parseInt(this.axis.replace('Mouse', ''))
+      if (buttonListened == e.button) {
+        this._value = 1
+        this._counter = 1
+      }
+    })
+
+    window.addEventListener('mouseup', e => {
+      const buttonListened = parseInt(this.axis.replace('Mouse', ''))
+      if (buttonListened == e.button) {
+        this._value = 0
+        this._counter = 0
+      }
+    })
+  }
+
+  private updateMouse() {
     if (this.config.type == 'temporary') {
       if (this._value != 0 && this._counter == 0) {
         this._value = 0
