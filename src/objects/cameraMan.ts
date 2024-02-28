@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 import { GameObject } from '../lib/Gameobject';
-import { TransformComponent } from '../components/TransformComponent';
-import { Body, Box, Cylinder, Material, Sphere, Vec3 } from 'cannon-es';
+import { Body, Box, Material, Vec3 } from 'cannon-es';
 import { RigidBodyComponent } from '../components/RigidBodyComponent';
 import { CameraComponent } from '../components/CameraComponent';
 import { JumpBehavior } from '../behaviors/JumpBehavior';
 import { InputComponent } from '../components/InputComponent';
 import { RunBehavior } from '../behaviors/RunBehavior';
 import { SteerBehavior } from '../behaviors/SteerBehavior';
+import { MeshComponent } from '../components/MeshComponent';
 
 export const cameraMan = (camera: THREE.Camera) => {
   const cameraMan = new GameObject('cameraman')
@@ -22,6 +22,14 @@ export const cameraMan = (camera: THREE.Camera) => {
     })
   )
   cameraMan.addComponent(rb)
+
+  const mesh = new MeshComponent(
+    new THREE.BoxGeometry(0.1, 0.1, 0.1),
+    new THREE.MeshBasicMaterial({color: 0x0000ff}),
+    { castShadow: true }
+  )
+
+  cameraMan.addComponent(mesh)
 
   const jumpInput = new InputComponent('Space', { type: 'temporary' })
   cameraMan.addComponent(jumpInput)
