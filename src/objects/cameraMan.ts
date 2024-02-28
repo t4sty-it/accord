@@ -6,9 +6,9 @@ import { CameraComponent } from '../components/CameraComponent';
 import { JumpBehavior } from '../behaviors/JumpBehavior';
 import { InputComponent } from '../components/InputComponent';
 import { RunBehavior } from '../behaviors/RunBehavior';
-import { SteerBehavior } from '../behaviors/SteerBehavior';
 import { MeshComponent } from '../components/MeshComponent';
 import { StrafeBehavior } from '../behaviors/StrafeBehavior';
+import { PointerLockController } from '../behaviors/PointerLockController';
 
 export const cameraMan = (camera: THREE.Camera) => {
   const cameraMan = new GameObject('cameraman')
@@ -38,14 +38,28 @@ export const cameraMan = (camera: THREE.Camera) => {
   cameraMan.addComponent(jumpInput)
   cameraMan.addComponent(new JumpBehavior({rb, input: jumpInput, strength: 20}))
 
-  const runInput = new InputComponent('ArrowUp', { type: 'persistent', inverse: 'ArrowDown', scale: -1 })
+  const runInput = new InputComponent('ArrowUp', {
+    type: 'persistent',
+    inverse: 'ArrowDown',
+    alternate: 'KeyW',
+    inverseAlternate: 'KeyS',
+    scale: -1
+  })
   cameraMan.addComponent(runInput)
   cameraMan.addComponent(new RunBehavior({rb, input: runInput, strength: 50}))
 
-  const steerInput = new InputComponent('ArrowLeft', { type: 'persistent', inverse: 'ArrowRight', scale: -1})
+  const steerInput = new InputComponent('ArrowLeft', {
+    type: 'persistent',
+    inverse: 'ArrowRight',
+    alternate: 'KeyA',
+    inverseAlternate: 'KeyD',
+    scale: -1
+  })
   cameraMan.addComponent(steerInput)
   cameraMan.addComponent(new StrafeBehavior(rb, steerInput, 50))
-  // cameraMan.addComponent(new SteerBehavior(rb, steerInput, 2.5))
-  // cameraMan.addComponent(new RotationBehavior(new THREE.Euler(0, 0.001, 0)))
+
+  cameraMan.addComponent(new PointerLockController(
+    rb, camera
+  ))
   return cameraMan
 }
