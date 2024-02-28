@@ -42,6 +42,8 @@ export class GameObject {
   }
 
   onRemove() {
+    this.components.forEach(c => c.onDestroy())
+    this.parent?.scene.remove(this.obj)
     this.parent = null
   }
 

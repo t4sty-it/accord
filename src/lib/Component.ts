@@ -15,4 +15,6 @@ export class Component {
   onRemove(_from: GameObject): void {
     this.gameObject = null
   }
+
+  onDestroy(): void {}
 }

@@ -21,7 +21,7 @@ export class ShootBehavior extends Component {
         bulletRb.body.quaternion.copy(this.origin.quaternion)
         bulletRb.body.position.copy(
           this.origin.position
-            .vadd(this.origin.quaternion.vmult(Vec3.UNIT_Z.scale(-0.2))
+            .vadd(this.origin.quaternion.vmult(Vec3.UNIT_Z.scale(-0.25))
           )
         )
         
