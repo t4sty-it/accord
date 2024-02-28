@@ -3,9 +3,6 @@ import { MeshComponent } from "../components/MeshComponent"
 import { RigidBodyComponent } from "../components/RigidBodyComponent"
 import { GameObject } from "../lib/Gameobject"
 import * as THREE from 'three'
-import { InputComponent } from "../components/InputComponent"
-import { JumpBehavior } from "../behaviors/JumpBehavior"
-import { RunBehavior } from "../behaviors/RunBehavior"
 
 export function Block() {
   const block = new GameObject('block')
@@ -20,23 +17,14 @@ export function Block() {
   
   const rb = new RigidBodyComponent(
     new Body({
-      mass: 5,
+      mass: 0.5,
       shape: new Box(new Vec3(0.1, 0.1, 0.1)),
       position: new Vec3(0, 1, 0),
-      material: new Material({friction: 0.01})
+      material: new Material({friction: 0.1})
     })
   )
 
   block.addComponent(rb)
-
-  // const jumpInput = new InputComponent('ArrowUp', {type: 'temporary'})
-  
-  // block.addComponent(jumpInput)
-  // block.addComponent(new JumpBehavior({rb, input: jumpInput, strength: 20}))
-
-  // const run = new InputComponent('ArrowUp', { type: 'persistent' })
-  // block.addComponent(run)
-  // block.addComponent(new RunBehavior({rb, input: run, strength: 50}))
 
   return block
 }

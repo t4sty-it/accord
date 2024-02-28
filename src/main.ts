@@ -4,16 +4,15 @@ import { GameObject } from './lib/Gameobject';
 import { MeshComponent } from './components/MeshComponent';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';
-import { BODY_TYPES, Body, Material, Plane, Quaternion, Vec3, World } from 'cannon-es';
-import { RigidBodyComponent } from './components/RigidBodyComponent';
+import { Vec3, World } from 'cannon-es';
 import { Block } from './objects/block';
 import { cameraMan } from './objects/cameraMan';
+import { ground } from './objects/ground';
 
 const scene = new GameScene({
   world: new World({gravity: new Vec3(0, -9.82, 0)}),
   mountOn: document.body
 })
-
 
 const camera = new THREE.PerspectiveCamera(70)
 scene.setCamera(camera)
@@ -38,24 +37,6 @@ light.addComponent(new LightComponent(
 scene.addObject(light)
 
 const block = Block()
-
 scene.addObject(block)
-
-const ground = new GameObject('ground')
-ground.addComponent(new MeshComponent(
-  new THREE.PlaneGeometry(1000, 1000),
-  new THREE.MeshLambertMaterial({color: 0xffffff}),
-  { receiveShadow: true }
-))
-
-ground.addComponent(new RigidBodyComponent(
-  new Body({
-    type: BODY_TYPES.STATIC,
-    shape: new Plane(),
-    quaternion: new Quaternion().setFromEuler(-Math.PI/2, 0, 0), // face up
-    position: new Vec3(0, -0.1, 0),
-    material: new Material({friction: 0.01, restitution: 0})
-  })
-))
 
 scene.addObject(ground)
