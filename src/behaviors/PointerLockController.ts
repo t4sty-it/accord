@@ -9,6 +9,9 @@ export class PointerLockController extends Component {
   constructor(
     public readonly rb: RigidBodyComponent,
     public readonly camera: THREE.Camera,
+    public readonly options: {
+      torqueFactor: number,
+    }
   ) {
     super()
 
@@ -31,7 +34,11 @@ export class PointerLockController extends Component {
   }
 
   private rotateCamera(e: MouseEvent) {
-    this.rb.body.applyTorque(Vec3.UNIT_Y.scale(-e.movementX))
+    this.rb.body.applyTorque(
+      Vec3.UNIT_Y.scale(
+        -e.movementX * this.options.torqueFactor
+      )
+    )
     this.camera.rotateX(-e.movementY*0.01)
   }
 }

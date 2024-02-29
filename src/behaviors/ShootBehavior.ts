@@ -9,6 +9,9 @@ export class ShootBehavior extends Component {
     public readonly origin: {position: Vec3, quaternion: Quaternion},
     public readonly input: InputComponent,
     public readonly bulletFactory: () => GameObject,
+    public readonly options: {
+      strength: number
+    }
   ) { super() }
 
   update(_time: number): void {
@@ -21,14 +24,12 @@ export class ShootBehavior extends Component {
         bulletRb.body.quaternion.copy(this.origin.quaternion)
         bulletRb.body.position.copy(
           this.origin.position
-            .vadd(this.origin.quaternion.vmult(Vec3.UNIT_Z.scale(-0.25))
-          )
         )
         
         bulletRb.body.applyImpulse(
           this.origin.quaternion
             .vmult(Vec3.UNIT_Z)
-            .scale(-.1)
+            .scale(-this.options.strength)
         )
       })
     }

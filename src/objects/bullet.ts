@@ -26,7 +26,13 @@ export function Bullet() {
   )
   bullet.addComponent(rb)
 
-  bullet.addComponent(new ExplodeOnContactBehavior(rb, Explosion))
+  bullet.addComponent(new ExplodeOnContactBehavior(
+    rb, Explosion,
+    {
+      blastRadius: 2,
+      strength: 200
+    }
+  ))
 
   return bullet
 }
