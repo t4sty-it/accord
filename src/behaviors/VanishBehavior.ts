@@ -8,7 +8,7 @@ export class VanishBehavior extends Component {
     super()
 
     setTimeout(() => {
-      this.gameObject?.parent?.removeObject(this.gameObject)
+      this.gameObject?.gameScene?.removeObject(this.gameObject)
     }, timeout);
   }
 }

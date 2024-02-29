@@ -8,7 +8,7 @@ export class RigidBodyComponent extends Component {
   name = 'rigidBody'
 
   private get world(): World | null {
-    return this.gameObject?.parent?.world ?? null
+    return this.gameObject?.gameScene?.world ?? null
   }
   
   private collisionHandlers: CollisionHandler[] = []

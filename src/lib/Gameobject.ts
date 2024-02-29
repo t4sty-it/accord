@@ -6,7 +6,7 @@ export class GameObject {
 
   public readonly obj = new THREE.Object3D() 
   
-  public parent: GameScene | null = null
+  public gameScene: GameScene | null = null
   private components: Component[] = []
 
   constructor(
@@ -36,15 +36,15 @@ export class GameObject {
   }
 
   onAdd(gameScene: GameScene) {
-    this.parent = gameScene
+    this.gameScene = gameScene
     gameScene.scene.add(this.obj)
     this.components.forEach(c => c.start())
   }
 
   onRemove() {
     this.components.forEach(c => c.onDestroy())
-    this.parent?.scene.remove(this.obj)
-    this.parent = null
+    this.gameScene?.scene.remove(this.obj)
+    this.gameScene = null
   }
 
   getComponent(name: string) {

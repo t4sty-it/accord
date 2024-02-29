@@ -14,7 +14,7 @@ export class ShootBehavior extends Component {
   update(_time: number): void {
     if (this.input.value == 1) {
       const bullet = this.bulletFactory()
-      this.gameObject?.parent?.addObject(bullet)
+      this.gameObject?.gameScene?.addObject(bullet)
 
       const bulletRb = bullet.getComponent('rigidBody') as RigidBodyComponent
       setTimeout(() => {
