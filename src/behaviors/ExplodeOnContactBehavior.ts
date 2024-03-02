@@ -1,4 +1,4 @@
-import { Vector3, Vector3Like } from "three";
+import { Vector3Like } from "three";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
 import { Component } from "../lib/Component";
 import { GameObject } from "../lib/Gameobject";
@@ -51,7 +51,6 @@ export class ExplodeOnContactBehavior extends Component {
         const impulse = b.position
           .vsub(origin)
           .scale(this.strength / (1 + (d2 / b2)))
-        console.log(impulse)    
         b.applyImpulse(impulse)
       }
     })
