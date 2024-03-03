@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { MeshComponent } from "../components/MeshComponent";
-import { GameObject } from "../lib/Gameobject";
+import { GameObject } from "@engine";
 import { VanishBehavior } from '../behaviors/VanishBehavior';
 import { GrowBehavior } from '../behaviors/GrowBehavior';
 import { AudioSourceComponent } from '../components/AudioSourceComponent';

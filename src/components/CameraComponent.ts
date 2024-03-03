@@ -1,6 +1,5 @@
 import * as THREE from 'three'
-import { GameObject } from "../lib/Gameobject";
-import { Component } from '../lib/Component';
+import { Component, GameObject } from "@engine";
 
 export class CameraComponent extends Component {
   name = 'perspective camera'

@@ -1,4 +1,4 @@
-import { Component } from "../lib/Component";
+import { Component } from "@engine";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
 import { Vec3 } from "cannon-es";
 

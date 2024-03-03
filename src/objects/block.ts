@@ -1,7 +1,7 @@
 import { Body, Box, Material, Vec3 } from "cannon-es"
 import { MeshComponent } from "../components/MeshComponent"
 import { RigidBodyComponent } from "../components/RigidBodyComponent"
-import { GameObject } from "../lib/Gameobject"
+import { GameObject } from "@engine"
 import * as THREE from 'three'
 
 export function Block() {

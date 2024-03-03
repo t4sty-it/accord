@@ -1,7 +1,6 @@
 import { Vector3Like } from "three";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
-import { Component } from "../lib/Component";
-import { GameObject } from "../lib/Gameobject";
+import { Component, GameObject } from "@engine"
 import { Vec3 } from "math/Vec3";
 
 export class ExplodeOnContactBehavior extends Component {

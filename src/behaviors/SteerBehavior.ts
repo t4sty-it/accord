@@ -1,7 +1,7 @@
 import { Vec3 } from "cannon-es";
 import { InputComponent } from "../components/InputComponent";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
-import { Component } from "../lib/Component";
+import { Component } from "@engine";
 
 export class SteerBehavior extends Component {
   name = 'steer'

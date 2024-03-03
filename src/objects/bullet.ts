@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { MeshComponent } from "../components/MeshComponent";
-import { GameObject } from "../lib/Gameobject";
+import { GameObject } from "@engine";
 import { RigidBodyComponent } from '../components/RigidBodyComponent';
 import { Body, Sphere } from 'cannon-es';
 import { ExplodeOnContactBehavior } from '../behaviors/ExplodeOnContactBehavior';

@@ -1,5 +1,4 @@
-import { GameObject } from "../lib/Gameobject";
-import { Component } from '../lib/Component';
+import { Component, GameObject } from "@engine";
 import { Body, Vec3, World } from "cannon-es";
 
 export type CollisionHandler = (e: {body: Body, contact: Vec3}) => void

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Component } from '../lib/Component';
+import { Component } from '@engine';
 
 export class RotationBehavior extends Component {
   name: 'rotation' = 'rotation'

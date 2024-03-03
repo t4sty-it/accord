@@ -1,7 +1,6 @@
-import * as THREE from 'three'
 import { InputComponent } from "../components/InputComponent";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
-import { Component } from "../lib/Component";
+import { Component } from "@engine";
 import { Vec3 } from 'cannon-es';
 
 export class RunBehavior extends Component {

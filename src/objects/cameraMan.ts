@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { GameObject } from '../lib/Gameobject';
-import { Body, Box, Cylinder, Material, Quaternion, Vec3 } from 'cannon-es';
+import { GameObject } from '@engine';
+import { Body, Cylinder, Material, Quaternion, Vec3 } from 'cannon-es';
 import { RigidBodyComponent } from '../components/RigidBodyComponent';
 import { CameraComponent } from '../components/CameraComponent';
 import { JumpBehavior } from '../behaviors/JumpBehavior';

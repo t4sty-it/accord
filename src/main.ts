@@ -1,6 +1,5 @@
 import * as THREE from 'three'
-import { GameScene } from "./lib/GameScene";
-import { GameObject } from './lib/Gameobject';
+import { GameScene, GameObject } from "@engine";
 import { MeshComponent } from './components/MeshComponent';
 import { TransformComponent } from './components/TransformComponent';
 import { LightComponent } from './components/LightComponent';

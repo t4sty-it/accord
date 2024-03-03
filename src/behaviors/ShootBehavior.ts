@@ -1,8 +1,7 @@
 import { Quaternion, Vec3 } from "cannon-es";
 import { InputComponent } from "../components/InputComponent";
 import { RigidBodyComponent } from "../components/RigidBodyComponent";
-import { Component } from "../lib/Component";
-import { GameObject } from "../lib/Gameobject";
+import { Component, GameObject } from "@engine"
 
 export class ShootBehavior extends Component {
   constructor(

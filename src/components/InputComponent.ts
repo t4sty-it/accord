@@ -1,4 +1,4 @@
-import { Component } from '../lib/Component';
+import { Component } from '@engine';
 
 export interface InputConfig {
   type: 'temporary' | 'persistent',

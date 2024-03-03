@@ -1,6 +1,5 @@
 import * as THREE from 'three'
-import { GameObject } from '../lib/Gameobject'
-import { Component } from '../lib/Component'
+import { Component, GameObject } from '@engine'
 
 export class MeshComponent extends Component {
   name: 'mesh' = 'mesh'

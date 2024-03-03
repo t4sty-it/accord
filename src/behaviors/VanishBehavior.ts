@@ -1,4 +1,4 @@
-import { Component } from "../lib/Component";
+import { Component } from "@engine";
 
 export class VanishBehavior extends Component {
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { MeshComponent } from "../components/MeshComponent"
-import { GameObject } from "../lib/Gameobject"
+import { GameObject } from "@engine"
 import { RigidBodyComponent } from '../components/RigidBodyComponent'
 import { BODY_TYPES, Body, Material, Plane, Quaternion, Vec3 } from 'cannon-es'
 

@@ -1,4 +1,4 @@
-import { Component } from "../lib/Component";
+import { Component } from "@engine";
 import * as THREE from 'three'
 
 // let actx: AudioContext | null = null
