@@ -1,8 +1,10 @@
 # Accord
 
-I hacked toghether threejs and cannon-es physics, giving it some structure a-la-Unity: you can create `GameObject`s and add `Component` for assets and behaviors. The main advantage vs going all free-style as I've usually seen with threejs is you get explicit dependencies and easy reusability.
+I hacked toghether [threejs](https://threejs.org/) and [cannon-es](https://pmndrs.github.io/cannon-es/) physics, giving it some structure a-la-Unity: you can create `GameObject`s and add `Component` for assets and behaviors. The main advantage vs going all free-style as I've usually seen with threejs is you get explicit dependencies and easy reusability.
 
-There's a simple FPS game implemented to showcase the structure. Checkout
+I hacked in also [PeerJS](https://peerjs.com/) to implement a peer-to-peer multiplayer mode.
+
+There's a simple FPS game implemented to showcase the structure. Checkout:
 
 - `main.ts` for the FPS example
 - `objects` folder for the definitions of the objects used in the example FPS
@@ -14,19 +16,19 @@ There's a simple FPS game implemented to showcase the structure. Checkout
 ## Requirements and dependencies
 The project depends on [bun](bun.sh), is written in Typescript and uses vitejs for packaging.
 
-## Operation
+## Usage
 
-To install:
+Install dependencies with
 ```sh
 bun install
 ```
 
-To run in dev mode:
+then run in dev mode with
 ```sh
 bun run dev
 ```
 
-To build:
+or build with
 ```sh
 bun run build
 ```
