@@ -1,10 +1,10 @@
-import { Body, Box, Material, Vec3 } from "cannon-es"
-import { MeshComponent } from "../components/MeshComponent"
-import { RigidBodyComponent } from "../components/RigidBodyComponent"
-import { GameObject } from "@engine"
 import * as THREE from 'three'
+import { MeshComponent } from "../components/MeshComponent"
+import { GameObject } from "../lib/engine/Gameobject"
+import { RigidBodyComponent } from '../components/RigidBodyComponent'
+import { BODY_TYPES, Body, Box, Material, Vec3 } from 'cannon-es'
 
-export function Block(name: string, initPos: THREE.Vector3Like) {
+export function Mate(name: string) {
   const block = new GameObject(name)
 
   block.addComponent(new MeshComponent(
@@ -17,9 +17,10 @@ export function Block(name: string, initPos: THREE.Vector3Like) {
   
   const rb = new RigidBodyComponent(
     new Body({
+      type: BODY_TYPES.KINEMATIC,
       mass: 15,
       shape: new Box(new Vec3(0.3, 0.3, 0.3)),
-      position: new Vec3(initPos.x, initPos.y, initPos.z),
+      position: new Vec3(0, 1, 0),
       material: new Material({friction: 0.1})
     })
   )

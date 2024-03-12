@@ -47,6 +47,10 @@ export class GameScene {
     obj.onRemove()
   }
 
+  objectsWhere(filter: (obj: GameObject) => boolean): GameObject[] {
+    return this.objects.filter(filter).slice(0)
+  }
+
   private resize() {
     const container = this.renderer.domElement.parentElement!
     const width = container.clientWidth

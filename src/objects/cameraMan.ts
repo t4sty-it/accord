@@ -11,15 +11,16 @@ import { StrafeBehavior } from '../behaviors/StrafeBehavior';
 import { PointerLockController } from '../behaviors/PointerLockController';
 import { ShootBehavior } from '../behaviors/ShootBehavior';
 import { Bullet } from './bullet';
+import { Connection } from '../lib/multiplayer/connection';
+import { connectObject } from './configurators/connectObject';
 
-export const cameraMan = (camera: THREE.Camera) => {
+export const cameraMan = (camera: THREE.Camera, connection: Connection) => {
   const cameraMan = new GameObject('cameraman')
-  // cameraMan.addComponent(new TransformComponent(new THREE.Vector3(0, 0, 2)))
   cameraMan.addComponent(new CameraComponent(camera))
   const body = new Body({
     shape: new Cylinder(0.7, 0.7, 1.70, 8),
     mass: 80,
-    position: new Vec3(0, 1, 2),
+    position: new Vec3(Math.random() * 4, 1, 2),
     material: new Material({friction: 0, restitution: 0.5})
   })
   body.linearDamping = 0.99
@@ -82,10 +83,11 @@ export const cameraMan = (camera: THREE.Camera) => {
   cameraMan.addComponent(new ShootBehavior(
     bulletOrigin,
     shootInput,
-    Bullet,
+    () => connectObject('localOwner', Bullet(), connection),
     {
       strength: .25
     }
   ))
+  
   return cameraMan
 }

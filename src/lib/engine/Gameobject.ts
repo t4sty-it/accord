@@ -21,6 +21,10 @@ export class GameObject {
     this.components.forEach(c => c.update(time))
   }
 
+  destroy() {
+    this.gameScene?.removeObject(this)
+  }
+
   render(): THREE.Object3D {
     return this.obj
   }
@@ -47,7 +51,7 @@ export class GameObject {
     this.gameScene = null
   }
 
-  getComponent(name: string) {
-    return this.components.find(c => c.name == name)
+  getComponent<T extends Component>(name: string): T {
+    return this.components.find(c => c.name == name) as T
   }
 }
