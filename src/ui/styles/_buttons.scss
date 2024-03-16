@@ -1,0 +1,19 @@
+button {
+  padding: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 8px;
+
+  background: $col-light;
+  color: $col-dark;
+
+  &.primary {
+    background: $col-primary;
+    color: $col-light;
+  }
+
+  &.secondary {
+    background: $col-secondary;
+    color: $col-light;
+  }
+}

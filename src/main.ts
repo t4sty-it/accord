@@ -6,10 +6,12 @@ import { ground } from './objects/ground';
 import { Connection } from './lib/multiplayer/connection';
 import { Mate } from './objects/mate';
 import { connectObject } from './objects/configurators/connectObject';
-import { MessageType, getMessageType } from './lib/multiplayer/codec';
+import { MessageType, decodeTransform, getMessageType } from './lib/multiplayer/codec';
 import { Bullet } from './objects/bullet';
 import { light } from './objects/light';
 import { Spawner } from './objects/spawner';
+import { Tree } from './objects/tree';
+import { renderUI } from './ui';
 
 const scene = new GameScene({
   world: new World({gravity: new Vec3(0, -9.82, 0)}),
@@ -19,20 +21,16 @@ const scene = new GameScene({
 const camera = new THREE.PerspectiveCamera(70)
 scene.setCamera(camera)
 
+// scene.addObject(Tree())
+
 scene.addObject(light)
 scene.addObject(ground)
 
-const adj = ['frantic', 'happy', 'sad', 'cheap', 'coward', 'great']
-const col = ['red', 'blue', 'green', 'silver', 'gold', 'black', 'white']
-const anm = ['zebra', 'lion', 'diode', 'monkey', 'possum', 'whale', 'shark']
-const choose = <T>(items: T[]) => items[Math.ceil(Math.random() * (items.length - 1))]
-const name = [choose(adj), choose(col), choose(anm)].join('_')
-const conn = new Connection(name)
+const conn = new Connection()
 
 conn.on('mate:new', (user, msg) => {
   console.log('new mate:', user)
   const mate = connectObject('remoteOwner', Mate(user), conn, user)
-  otherUser = mate
   scene.addObject(mate)
 })
 
@@ -56,7 +54,15 @@ conn.on('mate:data', (user, msg) => {
   if ((typeof l === 'boolean' && l) ||
       (typeof l === 'string' && l.match(msg))
   ) console.log('DATA', user, msg)
+
+  if (msgType === MessageType.Transform) {
+    const [name, pos, ..._] = decodeTransform(msg)
+    dbgData.push([name, v(pos)].join(' '))
+  }
 })
+
+const v = (v: THREE.Vector3Like) => ['x', 'y', 'z'].map(k => f(v[k as keyof typeof v])).join(' ')
+const f = (n: number) => n.toFixed(3)
 
 const factory = (name: string) => {
   const bulletMatch = name.match(/bullet-(\d+)/)
@@ -68,49 +74,29 @@ const factory = (name: string) => {
 
 scene.addObject(Spawner(conn, factory))
 
-let otherUser: GameObject
 const user = cameraMan(camera, conn)
-scene.addObject(connectObject('localOwner', user, conn, conn.userName))
+scene.addObject(connectObject('localOwner', user, conn, () => conn.userName! ))
 
-const $app = document.querySelector('#app')!
-const $dbg = document.createElement('div')
-$dbg.className = 'dbg'
-$app.append($dbg)
+let dbgData: string[] = []
+const pipe = (function* (buf: string[]) {
+  let lastYielded = ''
+  while(true) {
+    if (buf.length > 0) {
+      lastYielded = buf.shift()!
+      yield lastYielded
+    }
+    else {
+      yield lastYielded
+    }
+  }
+})(dbgData)
 
-const $name = document.createElement('div')
-$name.textContent = name
-$name.className = 'username'
-$dbg.append($name)
-
-const $userPos = document.createElement('div')
-$userPos.className = 'userpos'
-$dbg.append($userPos)
-
-const $otherUserPos = document.createElement('div')
-$otherUserPos.className = 'otherUserPos'
-$dbg.append($otherUserPos)
-
-const f = (n: number) => n.toFixed(3)
-const v = (v: THREE.Vector3Like) => ['x', 'y', 'z'].map(k => f(v[k as keyof typeof v])).join(' ')
-setInterval(() => {
-  $userPos.textContent = v(user.obj.position)
-  otherUser && ($otherUserPos.textContent = v(otherUser.obj.position))
-}, 100)
-
-const $form = document.createElement('form')
-$form.addEventListener('submit', e => {
-  e.preventDefault()
-  e.stopPropagation()
-
-  const remotePlayerName = ((e.target as HTMLFormElement).elements.namedItem('target') as HTMLInputElement).value
-  conn.connect(remotePlayerName)
+renderUI({
+  multiplayer: {
+    logIn: (username: string) => { conn.init(username) },
+    connect: (remoteUser: string) => { conn.connect(remoteUser) }
+  },
+  debug: {
+    getData: () => pipe.next().value
+  }
 })
-$dbg.append($form)
-
-const $input = document.createElement('input')
-$input.placeholder = 'remote user name'
-$input.name = 'target'
-
-$form.append($input)
-
-;(window as any).remote = conn

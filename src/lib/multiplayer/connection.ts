@@ -9,14 +9,17 @@ export type MessageHandler = (user: string, message: string) => void
 
 export class Connection {
 
-  private peer: Peer
+  private peer?: Peer
+  private _userName?: string
+  public get userName() { return this._userName }
 
   private roomMates: Record<string, DataConnection> = {}
   private eventHandlers: Record<string, MessageHandler[]> = {}
 
-  constructor(
-    public readonly userName: string
-  ) {
+  constructor() {}
+
+  public init(userName: string) {
+    this._userName = userName
     this.peer = new Peer(id(userName))
     this.peer.on('connection', conn => {
       conn.on('open', () => {
@@ -27,22 +30,34 @@ export class Connection {
   }
 
   public connect(otherUser: string) {
-    console.log('connecting to', id(otherUser))
-    const conn = this.peer.connect(id(otherUser))
-    conn.on('open', () => {
-      console.log('connected to', conn.connectionId)
-      this.addMate(otherUser, conn)
-      conn.send(msg('HELO', this.userName))
+    this.ifReady(() => {
+      console.log('connecting to', id(otherUser))
+      const conn = this.peer!.connect(id(otherUser))
+      conn.on('open', () => {
+        console.log('connected to', conn.connectionId)
+        this.addMate(otherUser, conn)
+        conn.send(msg('HELO', this._userName!))
+      })
+      conn.on('data', data => this.respond(conn, data))
     })
-    conn.on('data', data => this.respond(conn, data))
   }
 
   public multicast(message: string) {
-    Object.values(this.roomMates).forEach(conn => conn.send(msg('DATA', this.userName, message)))
+    this.ifReady(() => {
+      Object.values(this.roomMates).forEach(conn => conn.send(msg('DATA', this._userName!, message)))
+    })
   }
 
   public close() {
-    Object.values(this.roomMates).forEach(conn => conn.send(msg('BYE', this.userName)))
+    this.ifReady(() => {
+      Object.values(this.roomMates).forEach(conn => conn.send(msg('BYE', this._userName!)))
+    })
+  }
+
+  private ifReady(cb: () => void) {
+    if (this.peer != null && this._userName != null) {
+      cb()
+    }
   }
 
   private respond(conn: DataConnection, data: unknown) {

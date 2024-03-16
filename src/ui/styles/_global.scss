@@ -1,0 +1,25 @@
+#ui {
+  color: white;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+* {
+  + h1, h2, h3, h4, h5, h6 {
+    margin-top: 1em;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+  margin: 0 0 0.25em 0;
+
+  color: $col-primary;
+
+  &.secondary {
+    color: $col-secondary;
+  }
+}
