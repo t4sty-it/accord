@@ -13,7 +13,7 @@ export function GameOverlay() {
 
   const mp = useContext(MultiplayerContext)
 
-  const [showConnectionMenu, setShowConnectionMenu] = useState(true)
+  const [showConnectionMenu, setShowConnectionMenu] = useState(false)
   const [username, setUsername] = useState(generateUsername())
   const onSetUsername = (username: string) => {
     setUsername(username)
