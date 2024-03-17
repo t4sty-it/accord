@@ -8,6 +8,7 @@ export class GameObject {
   
   public gameScene: GameScene | null = null
   private components: Component[] = []
+  public children: GameObject[] = []
 
   constructor(
     public name: string,
@@ -53,5 +54,19 @@ export class GameObject {
 
   getComponent<T extends Component>(name: string): T {
     return this.components.find(c => c.name == name) as T
+  }
+
+  add(gObj: GameObject) {
+    this.children.push(gObj)
+    this.obj.add(gObj.obj)
+  }
+
+  remove(other: GameObject) {
+    const idx = this.children.findIndex(child => child == other)
+    if (idx >= 0) {
+      other.onRemove()
+      this.obj.remove(other.obj)
+      this.children.splice(idx, 1)
+    }
   }
 }

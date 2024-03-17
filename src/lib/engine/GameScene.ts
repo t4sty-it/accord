@@ -38,8 +38,10 @@ export class GameScene {
 
   addObject(obj: GameObject) {
     this.objects.push(obj)
-    obj.onAdd(this)
-    obj.start()
+    this.eachObject(o => {
+      o.onAdd(this)
+      o.start()
+    }, [obj])
   }
 
   removeObject(obj: GameObject) {
@@ -62,9 +64,24 @@ export class GameScene {
 
   private animation(time: number) {
     this.world?.fixedStep()
-    this.objects.forEach(o => o.update(time))
+    this.eachObject(o => o.update(time), this.objects)
     if (this._camera != null)
       this.renderer.render(this.scene, this._camera)
+  }
+
+  private eachObject(cb: (obj: GameObject) => void, init: GameObject[]) {
+    const objs: GameObject[] = []
+
+    init.forEach(o => {
+      cb(o)
+      objs.push(...o.children)
+    })
+
+    while (objs.length > 0) {
+      const obj = objs.pop()!
+      cb(obj)
+      objs.push(...obj.children)
+    }
   }
 
   public setCamera(camera: THREE.Camera) {
