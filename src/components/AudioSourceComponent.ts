@@ -1,8 +1,6 @@
 import { Component } from "@engine";
 import * as THREE from 'three'
 
-// let actx: AudioContext | null = null
-// window.addEventListener('click', () => actx = new AudioContext())
 let _actx: AudioContext | null = null
 const actx = () => {
   if (_actx == null) _actx = new AudioContext()
