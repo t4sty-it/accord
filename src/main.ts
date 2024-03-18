@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { GameObject, GameScene } from "@engine";
+import { GameScene } from "@engine";
 import { Vec3, World } from 'cannon-es';
 import { cameraMan } from './objects/cameraMan';
 import { ground } from './objects/ground';
@@ -10,7 +10,6 @@ import { MessageType, decodeTransform, getMessageType } from './lib/multiplayer/
 import { Bullet } from './objects/bullet';
 import { light } from './objects/light';
 import { Spawner } from './objects/spawner';
-import { Tree } from './objects/tree';
 import { renderUI } from './ui';
 
 const scene = new GameScene({
@@ -20,8 +19,6 @@ const scene = new GameScene({
 
 const camera = new THREE.PerspectiveCamera(70)
 scene.setCamera(camera)
-
-// scene.addObject(Tree())
 
 scene.addObject(light)
 scene.addObject(ground)
