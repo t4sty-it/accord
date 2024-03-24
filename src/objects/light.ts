@@ -8,12 +8,13 @@ export const light = new GameObject('light');
 light.addComponent(new TransformComponent(
   new THREE.Vector3(0, 3, 1)
 ));
-light.addComponent(new MeshComponent(
-  new THREE.SphereGeometry(0.01),
-  new THREE.MeshBasicMaterial({
+light.addComponent(new MeshComponent({
+  geometry: new THREE.SphereGeometry(0.01),
+  material: new THREE.MeshBasicMaterial({
     color: 16777215
   })
-));
+}));
+
 const dir = new THREE.DirectionalLight(16777215, 0.3);
 dir.rotateX(30);
 light.addComponent(new LightComponent(

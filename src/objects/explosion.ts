@@ -13,10 +13,10 @@ const exploMaterial = new THREE.MeshToonMaterial({color: 0xff4400, opacity: 0.7,
 export function Explosion() {
   const obj = new GameObject('explosion')
 
-  obj.addComponent(new MeshComponent(
-    exploGeometry,
-    exploMaterial
-  ))
+  obj.addComponent(new MeshComponent({
+    geometry: exploGeometry,
+    material: exploMaterial
+  }))
 
   obj.addComponent(new GrowBehavior(1.25))
 

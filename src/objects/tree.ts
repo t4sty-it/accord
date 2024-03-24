@@ -20,10 +20,10 @@ export function Tree(id?: string): GameObject {
 
   tree.addComponent(rb)
 
-  const mesh = new MeshComponent(
-    treeGeometry,
-    treeMaterial,
-  )
+  const mesh = new MeshComponent({
+    geometry: treeGeometry,
+    material: treeMaterial,
+  })
 
   tree.addComponent(mesh)
 

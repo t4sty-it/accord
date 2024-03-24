@@ -3,8 +3,6 @@ import { GameScene } from './GameScene'
 import { Component } from './Component'
 
 export class GameObject {
-
-  public readonly obj = new THREE.Object3D() 
   
   public gameScene: GameScene | null = null
   private components: Component[] = []
@@ -12,6 +10,7 @@ export class GameObject {
 
   constructor(
     public name: string,
+    public readonly obj: THREE.Object3D = new THREE.Object3D() 
   ){}
 
   start() {

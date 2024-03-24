@@ -8,10 +8,12 @@ export function Mate(name: string) {
   const block = new GameObject(name)
 
   block.addComponent(new MeshComponent(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshLambertMaterial({
-      color: 0xff0000
-    }),
+    {
+      geometry: new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      material: new THREE.MeshLambertMaterial({
+        color: 0xff0000
+      })
+    },
     { castShadow: true }
   ))
   

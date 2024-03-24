@@ -14,7 +14,7 @@ import { Bullet } from './bullet';
 import { Connection } from '../lib/multiplayer/connection';
 import { connectObject } from './configurators/connectObject';
 
-export const cameraMan = (camera: THREE.Camera, connection: Connection) => {
+export const cameraMan = (camera: THREE.Camera, connection?: Connection) => {
   const cameraMan = new GameObject('cameraman')
   cameraMan.addComponent(new CameraComponent(camera))
   const body = new Body({
@@ -30,8 +30,10 @@ export const cameraMan = (camera: THREE.Camera, connection: Connection) => {
   cameraMan.addComponent(rb)
 
   const mesh = new MeshComponent(
-    new THREE.CylinderGeometry(0.7, 0.7, 1.70),
-    new THREE.MeshBasicMaterial({color: 0x0000ff}),
+    {
+      geometry: new THREE.CylinderGeometry(0.7, 0.7, 1.70),
+      material: new THREE.MeshBasicMaterial({color: 0x0000ff}),
+    },
     { castShadow: true }
   )
 
@@ -80,10 +82,15 @@ export const cameraMan = (camera: THREE.Camera, connection: Connection) => {
     }
   }
   cameraMan.addComponent(shootInput)
+
+  const bulletFactory = connection
+    ? () => connectObject('localOwner', Bullet(), connection)
+    : () => Bullet()
+
   cameraMan.addComponent(new ShootBehavior(
     bulletOrigin,
     shootInput,
-    () => connectObject('localOwner', Bullet(), connection),
+    bulletFactory,
     {
       strength: .25
     }

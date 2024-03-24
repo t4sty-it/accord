@@ -17,10 +17,10 @@ export function Bullet(
 ) {
   const bullet = new GameObject('bullet-' + (id ?? ('' + Math.random()).slice(2)))
 
-  bullet.addComponent(new MeshComponent(
-    bulletGeometry,
-    bulletMaterial,
-  ))
+  bullet.addComponent(new MeshComponent({
+    geometry: bulletGeometry,
+    material: bulletMaterial
+  }))
 
   bullet.addComponent(new AudioSourceComponent(gunShotSfx))
 

@@ -5,9 +5,10 @@ import { RigidBodyComponent } from '../components/RigidBodyComponent'
 import { BODY_TYPES, Body, Material, Plane, Quaternion, Vec3 } from 'cannon-es'
 
 const ground = new GameObject('ground')
-ground.addComponent(new MeshComponent(
-  new THREE.PlaneGeometry(1000, 1000),
-  new THREE.MeshLambertMaterial({color: 0xffffff}),
+ground.addComponent(new MeshComponent({
+    geometry: new THREE.PlaneGeometry(1000, 1000),
+    material: new THREE.MeshLambertMaterial({color: 0xffffff}),
+  },
   { receiveShadow: true }
 ))
 

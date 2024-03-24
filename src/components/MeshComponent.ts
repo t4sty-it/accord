@@ -1,6 +1,16 @@
 import * as THREE from 'three'
 import { Component, GameObject } from '@engine'
 
+export type MeshComponentOptions = {
+  geometry: THREE.BufferGeometry,
+  material: THREE.Material
+}
+
+export type MeshShadowOptions = {
+  castShadow?: boolean,
+  receiveShadow?: boolean,
+}
+
 export class MeshComponent extends Component {
   name: 'mesh' = 'mesh'
 
@@ -8,17 +18,17 @@ export class MeshComponent extends Component {
   public get mesh() { return this._mesh }
 
   constructor(
-    public readonly geometry: THREE.BufferGeometry,
-    public readonly material: THREE.Material,
-    options?: {
+    meshOptions: MeshComponentOptions,
+    shadowOptions?: {
       castShadow?: boolean,
       receiveShadow?: boolean
     }
   ){
     super()
-    this._mesh = new THREE.Mesh(geometry, material)
-    this._mesh.castShadow = options?.castShadow ?? false
-    this._mesh.receiveShadow = options?.receiveShadow ?? false
+
+    this._mesh = new THREE.Mesh(meshOptions.geometry, meshOptions.material)
+    this._mesh.castShadow = shadowOptions?.castShadow ?? false
+    this._mesh.receiveShadow = shadowOptions?.receiveShadow ?? false
   }
 
   onAdd(gameObject: GameObject): void {
