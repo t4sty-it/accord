@@ -42,10 +42,15 @@ const stores = {
 
 Provider.provide(RulesProvider, {
   reportHit(dmg) {
-    console.log('HIT', dmg)
     stores.player.applyDamage(dmg)
-    if (stores.player.getSnapshot().health <= 0)
-      console.log('DEAD')
+  },
+
+  revive() {
+    stores.player.revive()
+  },
+
+  isDead() {
+    return stores.player.getState().health <= 0
   }
 })
 

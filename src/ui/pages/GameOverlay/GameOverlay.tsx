@@ -32,7 +32,7 @@ export function GameOverlay() {
   const playerStore = useContext(StoresContext).player
   const player = useSyncExternalStore(
     playerStore.subscribe.bind(playerStore),
-    playerStore.getSnapshot.bind(playerStore)
+    playerStore.getState.bind(playerStore)
   )
 
   const className = clsx('game-overlay', showConnectionMenu && 'game-overlay--active');

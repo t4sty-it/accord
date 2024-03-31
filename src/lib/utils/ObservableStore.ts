@@ -14,7 +14,7 @@ export class ObservableStore<State> {
     }
   }
 
-  public getSnapshot() {
+  public getState() {
     return this.state
   }
   
