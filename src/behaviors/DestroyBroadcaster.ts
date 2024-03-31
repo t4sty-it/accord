@@ -13,7 +13,6 @@ export class DestroyBroadcaster extends Component {
   }
 
   onDestroy(): void {
-    console.log('SEND DESTROY', this.sendName ?? this.gameObject?.name)
     const gobj = this.gameObject!
     const obj = gobj.obj
     this.conn.multicast(

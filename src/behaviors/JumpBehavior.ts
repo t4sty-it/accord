@@ -30,7 +30,6 @@ export class JumpBehavior extends Component {
     this.charges = charges
     rb.onCollision(() => {
       this.chargesLeft = this.charges
-      console.log('charged up')
     })
   }
 

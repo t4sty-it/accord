@@ -34,7 +34,6 @@ export function GameOverlay() {
     playerStore.subscribe.bind(playerStore),
     playerStore.getSnapshot.bind(playerStore)
   )
-  useEffect(() => console.log({player}), [player])
 
   const className = clsx('game-overlay', showConnectionMenu && 'game-overlay--active');
 

@@ -39,7 +39,7 @@ export function mainScene(atlas: Atlas, stores: {player: PlayerStore}, connectio
 
   const log: Record<string, boolean | string> = {
     [MessageType.Spawn]: true,
-    [MessageType.Transform]: 'bullet',
+    [MessageType.Transform]: false, // 'bullet',
     [MessageType.Destroy]: true,
   }; (window as any).log = log;
 
