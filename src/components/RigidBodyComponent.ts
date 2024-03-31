@@ -1,7 +1,18 @@
 import { Component, GameObject } from "@engine";
 import { Body, Vec3, World } from "cannon-es";
 
-export type CollisionHandler = (e: {body: Body, contact: Vec3}) => void
+type CannonEsCollisionEvent = {
+  body: Body,
+  target: {
+    position: Vec3,
+    force: Vec3,
+    torque: Vec3
+  }
+}
+
+export type CollisionEvent = CannonEsCollisionEvent & { gameObject: GameObject }
+
+export type CollisionHandler = (e: CollisionEvent) => void
 
 export class RigidBodyComponent extends Component {
   name = 'rigidBody'
@@ -16,13 +27,16 @@ export class RigidBodyComponent extends Component {
     public readonly body: Body
   ){
     super()
-    this.body.addEventListener('collide', (e: {body: Body, target: {position: Vec3}}) => {
-      this.collisionHandlers.forEach(h => h({body: e.body, contact: e.target.position}))
+    this.body.addEventListener('collide', (e: CannonEsCollisionEvent) => {
+      if (this.gameObject) {
+        this.collisionHandlers.forEach(h => h({...e, gameObject: rbcache.get(e.body)?.getGameObject()!}))
+      }
     })
   }
 
   start(): void {
     this.world?.addBody(this.body)
+    rbcache.set(this.body, this!)
   }
   
   update(_time: number): void {
@@ -32,9 +46,16 @@ export class RigidBodyComponent extends Component {
 
   onRemove(_from: GameObject): void {
     this.world?.removeBody(this.body)
+    rbcache.delete(this.body)
   }
 
   onCollision(cb: CollisionHandler): void {
     this.collisionHandlers.push(cb)
   }
+
+  public static findWithBody(body: Body): RigidBodyComponent | undefined {
+    return rbcache.get(body)
+  }
 }
+
+const rbcache = new WeakMap<Body, RigidBodyComponent>()

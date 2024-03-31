@@ -10,10 +10,10 @@ import { MessageType, decodeTransform, getMessageType } from '../lib/multiplayer
 import { Bullet } from '../objects/bullet';
 import { light } from '../objects/light';
 import { Spawner } from '../objects/spawner';
-import { Clock } from '../objects/clock';
 import { Atlas } from '../lib/engine/Atlas';
+import { PlayerStore } from '../stores/PlayerStore';
 
-export function mainScene(atlas: Atlas, connection: Connection, dbgData: string[]) {
+export function mainScene(atlas: Atlas, stores: {player: PlayerStore}, connection: Connection, dbgData: string[]) {
   const scene = new GameScene({
     world: new World({ gravity: new Vec3(0, -9.82, 0) }),
     mountOn: document.body
@@ -69,6 +69,6 @@ export function mainScene(atlas: Atlas, connection: Connection, dbgData: string[
 
   scene.addObject(Spawner(connection, factory));
 
-  const user = cameraMan(camera, connection);
+  const user = cameraMan(camera, stores.player, connection);
   scene.addObject(connectObject('localOwner', user, connection, () => connection.userName!));
 }

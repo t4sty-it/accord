@@ -8,6 +8,9 @@ import { Atlas } from './lib/engine/Atlas';
 
 import clockModel from './assets/clock.fbx?url'
 import swordModel from './assets/models/sword.glb?url'
+import { PlayerStore } from './stores/PlayerStore';
+import { Provider } from './lib/utils/Provider';
+import { RulesProvider } from './providers/RulesProvider';
 
 const connection = new Connection();
 let dbgData: string[] = [];
@@ -24,7 +27,7 @@ DefaultLoadingManager.onProgress = (_, itemsLoaded, itemsTotal) => {
 
 DefaultLoadingManager.onLoad = () => {
   route.push('connect')
-  mainScene(atlas, connection, dbgData);
+  mainScene(atlas, stores, connection, dbgData);
   // testScene(atlas)
 }
 
@@ -32,6 +35,19 @@ const atlas = new Atlas()
 atlas.register('clock', clockModel)
 atlas.register('sword', swordModel)
 atlas.loadAssets()
+
+const stores = {
+  player: new PlayerStore({name: 'test', health: 100})
+}
+
+Provider.provide(RulesProvider, {
+  reportHit(dmg) {
+    console.log('HIT', dmg)
+    stores.player.applyDamage(dmg)
+    if (stores.player.getSnapshot().health <= 0)
+      console.log('DEAD')
+  }
+})
 
 renderUI({
   route: () => routePipe.next().value,
@@ -42,5 +58,6 @@ renderUI({
   },
   debug: {
     getData: () => dbgDataPipe.next().value
-  }
+  },
+  playerStore: stores.player
 })

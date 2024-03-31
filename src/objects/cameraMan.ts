@@ -13,8 +13,10 @@ import { ShootBehavior } from '../behaviors/ShootBehavior';
 import { Bullet } from './bullet';
 import { Connection } from '../lib/multiplayer/connection';
 import { connectObject } from './configurators/connectObject';
+import { PlayerStore } from '../stores/PlayerStore';
+import { DamageOnHit } from '../behaviors/DamageOnHit';
 
-export const cameraMan = (camera: THREE.Camera, connection?: Connection) => {
+export const cameraMan = (camera: THREE.Camera, player: PlayerStore, connection?: Connection) => {
   const cameraMan = new GameObject('cameraman')
   cameraMan.addComponent(new CameraComponent(camera))
   const body = new Body({
@@ -95,6 +97,11 @@ export const cameraMan = (camera: THREE.Camera, connection?: Connection) => {
       strength: .25
     }
   ))
+
+  cameraMan.addComponent(new DamageOnHit(
+    rb,
+    player
+  ));
   
   return cameraMan
 }

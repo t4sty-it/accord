@@ -3,6 +3,8 @@ import { RigidBodyComponent } from "../components/RigidBodyComponent";
 import { Component, GameObject } from "@engine"
 import { Vec3 } from "cannon-es";
 
+export type HitHandler = (obj: GameObject, k: number) => void
+
 export class ExplodeOnContactBehavior extends Component {
 
   private exploPos: Vec3 | undefined
@@ -13,6 +15,7 @@ export class ExplodeOnContactBehavior extends Component {
     public readonly options: {
       blastRadius: number,
       strength: number,
+      onHit?: HitHandler
     }
   ) {
     super()
@@ -20,7 +23,7 @@ export class ExplodeOnContactBehavior extends Component {
     rb.onCollision((e) => {
       const scene = this.gameObject!.gameScene
       if (scene) {
-        this.exploPos = e.contact
+        this.exploPos = e.target.position
         scene.removeObject(this.gameObject!)
       }
     })
@@ -57,12 +60,15 @@ export class ExplodeOnContactBehavior extends Component {
     this.world?.bodies.forEach(b => {
       const d2 = b.position.distanceSquared(origin)
       const b2 = this.blastRadius*this.blastRadius
-
+      
       if (d2 < b2) {
+        const k = this.strength / (1 + (d2 / b2))
         const impulse = b.position
           .vsub(origin)
-          .scale(this.strength / (1 + (d2 / b2)))
+          .scale(k)
         b.applyImpulse(impulse)
+
+        this.options.onHit?.call(this, RigidBodyComponent.findWithBody(b)!.getGameObject()!, k)
       }
     })
   }

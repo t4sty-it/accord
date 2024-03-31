@@ -4,6 +4,7 @@ export class Component {
   name: string = 'component'
   
   protected gameObject: GameObject | null = null
+  getGameObject(){ return this.gameObject }
 
   start(): void {}
   update(_time: number): void {}

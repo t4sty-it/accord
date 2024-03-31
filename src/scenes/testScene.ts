@@ -6,8 +6,9 @@ import { ground } from "../objects/ground";
 import { GameObject } from "../lib/engine/Gameobject";
 import { Vec3, World } from "cannon-es";
 import { cameraMan } from "../objects/cameraMan";
+import { PlayerStore } from "../stores/PlayerStore";
 
-export function testScene(atlas: Atlas) {
+export function testScene(atlas: Atlas, stores: {player: PlayerStore}) {
   const scene = new GameScene({
     world: new World({ gravity: new Vec3(0, -9.82, 0) }),
     mountOn: document.body
@@ -25,6 +26,6 @@ export function testScene(atlas: Atlas) {
 
   sword.obj.position.setY(1)
 
-  const user = cameraMan(camera);
+  const user = cameraMan(camera, stores.player);
   scene.addObject(user)
 }

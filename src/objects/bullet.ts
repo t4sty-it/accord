@@ -7,6 +7,7 @@ import { ExplodeOnContactBehavior } from '../behaviors/ExplodeOnContactBehavior'
 import { Explosion } from './explosion';
 import { AudioSourceComponent } from '../components/AudioSourceComponent';
 import gunShotSfx from '../assets/gunshot.mp3'
+import { DataComponent } from '../components/DataComponent';
 
 
 const bulletMaterial = new THREE.MeshStandardMaterial({color: 0x44ff44})
@@ -36,9 +37,11 @@ export function Bullet(
     rb, Explosion,
     {
       blastRadius: 2,
-      strength: 200
+      strength: 200,
     }
   ))
+
+  bullet.addComponent(new DataComponent<number>('data-dmg', 30))
 
   return bullet
 }

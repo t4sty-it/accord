@@ -7,6 +7,9 @@ import { ReactNode } from 'react'
 import { AssetLoading } from './pages/AssetLoading/AssetLoading'
 import { Router } from './utils/Router'
 import { AssetLoadingContext } from './context/AssetLoadingContext'
+import { ObservableStore } from '../lib/utils/ObservableStore'
+import { Player } from '../stores/PlayerStore'
+import { StoresContext } from './context/StoresContext'
 
 export type Route = 'loading' | 'connect'
 
@@ -19,7 +22,8 @@ type Props = {
   },
   debug: {
     getData: () => string
-  }
+  },
+  playerStore: ObservableStore<Player>
 }
 
 const routes: Record<Route, () => ReactNode> = {
@@ -33,7 +37,9 @@ export function renderUI(props: Props) {
     <MultiplayerContext.Provider value={props.multiplayer}>
       <DebugContext.Provider value={props.debug}>
         <AssetLoadingContext.Provider value={{loaded: props.assetsLoaded}}>
-          <Router routes={routes} route={props.route}/>
+          <StoresContext.Provider value={{ player: props.playerStore }}>
+            <Router routes={routes} route={props.route}/>
+          </StoresContext.Provider>
         </AssetLoadingContext.Provider>
       </DebugContext.Provider>
     </MultiplayerContext.Provider>
