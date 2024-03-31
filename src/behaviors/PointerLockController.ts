@@ -39,6 +39,13 @@ export class PointerLockController extends Component {
         -e.movementX * this.options.torqueFactor
       )
     )
-    this.camera.rotateX(-e.movementY*0.01)
+
+    const ySensitivity = 0.01
+    const deltaPitch = e.movementY * ySensitivity
+    const targetPitch = this.camera.rotation.x - deltaPitch
+
+    if (targetPitch >= -Math.PI/2 && targetPitch <= Math.PI/2)
+      this.camera.rotateX(-deltaPitch)
+
   }
 }
