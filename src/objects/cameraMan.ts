@@ -16,6 +16,7 @@ import { connectObject } from './configurators/connectObject';
 import { PlayerStore } from '../stores/PlayerStore';
 import { DamageOnHit } from '../behaviors/DamageOnHit';
 import { RespawnWhenDead } from '../behaviors/RespawnWhenDead';
+import { FxWhileDead } from '../behaviors/FxWhileDead';
 
 export const cameraMan = (camera: THREE.Camera, player: PlayerStore, connection?: Connection) => {
   const cameraMan = new GameObject('cameraman')
@@ -107,6 +108,8 @@ export const cameraMan = (camera: THREE.Camera, player: PlayerStore, connection?
   cameraMan.addComponent(new RespawnWhenDead({
     respawnLocation: new THREE.Vector3(0, 3, 0)
   }))
+
+  cameraMan.addComponent(new FxWhileDead())
   
   return cameraMan
 }
