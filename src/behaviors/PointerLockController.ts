@@ -34,18 +34,24 @@ export class PointerLockController extends Component {
   }
 
   private rotateCamera(e: MouseEvent) {
+    this.setYaw(e);
+    this.setPitch(e);
+  }
+
+  private setYaw(e: MouseEvent) {
     this.rb.body.applyTorque(
       Vec3.UNIT_Y.scale(
         -e.movementX * this.options.torqueFactor
       )
-    )
+    );
+  }
 
-    const ySensitivity = 0.01
-    const deltaPitch = e.movementY * ySensitivity
-    const targetPitch = this.camera.rotation.x - deltaPitch
+  private setPitch(e: MouseEvent) {
+    const ySensitivity = 0.01;
+    const deltaPitch = e.movementY * ySensitivity;
+    const targetPitch = this.camera.rotation.x - deltaPitch;
 
-    if (targetPitch >= -Math.PI/2 && targetPitch <= Math.PI/2)
-      this.camera.rotateX(-deltaPitch)
-
+    if (targetPitch >= -Math.PI / 2 && targetPitch <= Math.PI / 2)
+      this.camera.rotateX(-deltaPitch);
   }
 }
